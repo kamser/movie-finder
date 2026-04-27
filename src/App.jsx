@@ -7,6 +7,15 @@ function App() {
   return (
     <>
       <h1>Best Movie Finder</h1>
+      <header>
+        <form action="">
+          <input name="userQuery" type="text" />
+          <button type='sumbit'>Search</button>
+        </form>
+      </header>
+      <main>
+        <h2>Movies</h2>
+      </main>
     </>
   )
 }
