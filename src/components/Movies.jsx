@@ -1,9 +1,11 @@
-import validMovieResponse from '../mocks/validMovieResponse.json'
+import validMovieResponse from '../../mocks/validMovieResponse.json'
 import movieNotFoundResponse from '../../mocks/movieNotFoundResponse.json'
+import './Movies.css'
+
 function ListOfMovies({movies}){
     return(
         <>
-            <ul>
+            <ul className='movies'>
             {
                 movies.map((element) => ( 
                     <li key={element.imdbID}>

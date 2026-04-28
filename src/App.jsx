@@ -1,11 +1,7 @@
 import './App.css'
-import validMovieResponse from '../mocks/validMovieResponse.json'
+import { Movies } from './components/Movies'
 
 function App() {
-  const hasMovies = validMovieResponse.Search !== null
-  const movies = hasMovies
-                  ? validMovieResponse.Search
-                  : null
 
   return (
     <>
@@ -17,21 +13,7 @@ function App() {
         </form>
       </header>
       <main>
-        <h2>Movies</h2>
-        {hasMovies 
-              ? movies.map((element) => (
-                    <ul key={element.imdbID}>
-                      <li>
-                        <h3>{element.Title}</h3>
-                        <p>{element.Year}</p>
-                        <img src={element.Poster} alt={`Its an image from the movie ${element.Title}`}></img>
-                      </li>
-                    </ul>
-                  )
-                )
-              :
-              <p>No movies found</p>
-        }
+        <Movies></Movies>
       </main>
     </>
   )
