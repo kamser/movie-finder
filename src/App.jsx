@@ -1,12 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import './App.css'
 import { Movies } from './components/Movies'
+import { SearchErrors } from './components/SearchErrors'
+
 import { useMovies } from './customHooks/useMovies'
+import { validateSearch } from '../validator/search'
 
 function App() {
 
   const [userSearch, setUserSearch] = useState('')
+  const [searchError, setSearchError] = useState([])
+  
   const {movies} = useMovies()
 
   const handleOnSumbit = (event) => {
@@ -15,10 +20,25 @@ function App() {
 
   const handleOnChange = (event) => {
     const currentValue = event.target.value
-    if(currentValue === ' ') return
-
+    console.log(currentValue)
     setUserSearch(currentValue)
   }
+
+  useEffect(()=> {
+    const validatorResult = validateSearch({userSearch})
+
+    if(validatorResult.success) {
+      setSearchError([])
+      return
+    }
+
+    const newIssues = validatorResult.error.issues.map( (issue) => issue.message)
+
+    console.log(newIssues)
+
+    setSearchError([...newIssues])
+
+  }, [userSearch])
 
   return (
     <>
@@ -33,6 +53,7 @@ function App() {
             onChange={handleOnChange}/>
           <button type='submit'>Search</button>
         </form>
+        <SearchErrors errors={searchError}></SearchErrors>
       </header>
       <main>
         <Movies movies={movies}></Movies>
