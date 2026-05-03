@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import './App.css'
 import { Movies } from './components/Movies'
@@ -11,8 +11,8 @@ function App() {
 
   const [userSearch, setUserSearch] = useState('')
   const [searchError, setSearchError] = useState([])
-  
   const {movies} = useMovies()
+  const firstTime = useRef(true)
 
   const handleOnSumbit = (event) => {
     event.preventDefault()
@@ -20,11 +20,15 @@ function App() {
 
   const handleOnChange = (event) => {
     const currentValue = event.target.value
-    console.log(currentValue)
     setUserSearch(currentValue)
   }
 
   useEffect(()=> {
+    if(firstTime.current){
+      firstTime.current = userSearch === ''
+      return
+    }
+
     const validatorResult = validateSearch({userSearch})
 
     if(validatorResult.success) {
