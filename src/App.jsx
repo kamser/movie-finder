@@ -9,9 +9,10 @@ import { validateSearch } from '../validator/search'
 
 function App() {
 
+  const [sort, setSort] = useState(false)
   const [userSearch, setUserSearch] = useState('')
   const [searchError, setSearchError] = useState([])
-  const {movies} = useMovies()
+  const {movies} = useMovies({search: userSearch, sort})
   const firstTime = useRef(true)
 
   const handleOnSumbit = (event) => {
@@ -44,6 +45,11 @@ function App() {
 
   }, [userSearch])
 
+
+  const handleOnCheckboxChange = (event) => {
+    if(event.target.checked) setSort(event.target.checked)
+  }
+
   return (
     <>
       <h1>Best Movie Finder</h1>
@@ -55,6 +61,8 @@ function App() {
             placeholder='Avengers, Matrix, Titanic, Avatar...'
             value={userSearch}
             onChange={handleOnChange}/>
+          <label htmlFor="sortOption">Sort Movies</label>
+          <input id="sortOption" type='checkbox' onChange={handleOnCheckboxChange}></input>
           <button type='submit'>Search</button>
         </form>
         <SearchErrors errors={searchError}></SearchErrors>
