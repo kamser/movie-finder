@@ -12,11 +12,12 @@ function App() {
   const [sort, setSort] = useState(false)
   const [userSearch, setUserSearch] = useState('')
   const [searchError, setSearchError] = useState([])
-  const {movies} = useMovies({search: userSearch, sort})
+  const {movies, getMovies} = useMovies({search: userSearch, sort})
   const firstTime = useRef(true)
 
   const handleOnSumbit = (event) => {
     event.preventDefault()
+    getMovies()
   }
 
   const handleOnChange = (event) => {

@@ -1,0 +1,1 @@
+export const BASE_MOVIES_URL = "https://www.omdbapi.com/?apikey=4287ad07&s="
