@@ -22,8 +22,6 @@ export function useSearch(){
 
     const newIssues = validatorResult.error.issues.map( (issue) => issue.message)
 
-    console.log(newIssues)
-
     setErrors([...newIssues])
 
   }, [search])

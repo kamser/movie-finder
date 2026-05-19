@@ -13,7 +13,7 @@ function App() {
 
   const [sort, setSort] = useState(false)
   const {search, updateSearch, errors} = useSearch()
-  const {movies, getMovies} = useMovies({search: search, sort})
+  const {movies, getMovies, loading} = useMovies({search: search, sort})
 
   const handleOnSumbit = (event) => {
     event.preventDefault()
@@ -47,7 +47,10 @@ function App() {
         <SearchErrors errors={errors}></SearchErrors>
       </header>
       <main>
-        <Movies movies={movies}></Movies>
+        {loading 
+          ? 'Loading. Please wait...'
+          : <Movies movies={movies}></Movies>}
+        
       </main>
     </>
   )
