@@ -1,19 +1,20 @@
 import { useState, useEffect, useRef } from 'react'
 
 import './App.css'
-import { Movies } from './components/Movies'
-import { SearchErrors } from './components/SearchErrors'
+import { Movies } from './components/Movies.jsx'
+import { SearchErrors } from './components/SearchErrors.jsx'
 
-import { useMovies } from './customHooks/useMovies'
-import { validateSearch } from '../validator/search'
+import { useMovies } from './customHooks/useMovies.js'
+//import { validateSearch } from '../validator/search'
+import { useSearch } from './customHooks/useSearch.js'
+
+
 
 function App() {
 
   const [sort, setSort] = useState(false)
-  const [userSearch, setUserSearch] = useState('')
-  const [searchError, setSearchError] = useState([])
-  const {movies, getMovies} = useMovies({search: userSearch, sort})
-  const firstTime = useRef(true)
+  const {search, updateSearch, errors} = useSearch()
+  const {movies, getMovies} = useMovies({search: search, sort})
 
   const handleOnSumbit = (event) => {
     event.preventDefault()
@@ -22,30 +23,8 @@ function App() {
 
   const handleOnChange = (event) => {
     const currentValue = event.target.value
-    setUserSearch(currentValue)
+    updateSearch(currentValue)
   }
-
-  useEffect(()=> {
-    if(firstTime.current){
-      firstTime.current = userSearch === ''
-      return
-    }
-
-    const validatorResult = validateSearch({userSearch})
-
-    if(validatorResult.success) {
-      setSearchError([])
-      return
-    }
-
-    const newIssues = validatorResult.error.issues.map( (issue) => issue.message)
-
-    console.log(newIssues)
-
-    setSearchError([...newIssues])
-
-  }, [userSearch])
-
 
   const handleOnCheckboxChange = (event) => {
     if(event.target.checked) setSort(event.target.checked)
@@ -60,13 +39,13 @@ function App() {
             name="userQuery" 
             type="text" 
             placeholder='Avengers, Matrix, Titanic, Avatar...'
-            value={userSearch}
+            value={search}
             onChange={handleOnChange}/>
           <label htmlFor="sortOption">Sort Movies</label>
           <input id="sortOption" type='checkbox' onChange={handleOnCheckboxChange}></input>
           <button type='submit'>Search</button>
         </form>
-        <SearchErrors errors={searchError}></SearchErrors>
+        <SearchErrors errors={errors}></SearchErrors>
       </header>
       <main>
         <Movies movies={movies}></Movies>
