@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState} from 'react'
 
 import './App.css'
 import { Movies } from './components/Movies.jsx'
 import { SearchErrors } from './components/SearchErrors.jsx'
 
 import { useMovies } from './customHooks/useMovies.js'
-//import { validateSearch } from '../validator/search'
 import { useSearch } from './customHooks/useSearch.js'
 
 
