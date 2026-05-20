@@ -1,4 +1,5 @@
-import { useState} from 'react'
+import { useState, useCallback} from 'react'
+import debounce from "just-debounce-it"
 
 import './App.css'
 import { Movies } from './components/Movies.jsx'
@@ -15,6 +16,12 @@ function App() {
   const {search, updateSearch, errors} = useSearch()
   const {movies, getMovies, loading} = useMovies({search: search, sort})
 
+  const debounceForGetMovies = useCallback( debounce( search => {
+      getMovies({search})
+    }, 500)
+    , []
+  )
+
   const handleOnSumbit = (event) => {
     event.preventDefault()
     getMovies({search})
@@ -23,6 +30,7 @@ function App() {
   const handleOnChange = (event) => {
     const currentValue = event.target.value
     updateSearch(currentValue)
+    debounceForGetMovies(currentValue)
   }
 
   const handleOnCheckboxChange = (event) => {
