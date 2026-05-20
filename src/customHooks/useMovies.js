@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 import validMovieResponse from '../../mocks/validMovieResponse.json'
 import movieNotFoundResponse from '../../mocks/movieNotFoundResponse.json'
@@ -9,6 +9,7 @@ export function useMovies({search, sort}){
     const [movies, setMovies] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+    const previousSearch = useRef(search)
     
     // const getMoviesLocally = () => {
     //     const movies = validMovieResponse.Search
@@ -49,9 +50,12 @@ export function useMovies({search, sort}){
     // }
 
     const getMovies = async () => {
+        if(previousSearch.current === search) return
+
         try {
             setLoading(true)
             const movies = await fetchMovies({search})
+            previousSearch.current = search
             setMovies([...movies])
         } catch (error) {
             setError(error)
