@@ -26,7 +26,7 @@ function App() {
   }
 
   const handleOnCheckboxChange = (event) => {
-    if(event.target.checked) setSort(event.target.checked)
+    setSort(event.target.checked)
   }
 
   return (
