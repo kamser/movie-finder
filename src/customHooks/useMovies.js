@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from 'react'
+import { useState, useRef, useMemo, useCallback } from 'react'
 
 import validMovieResponse from '../../mocks/validMovieResponse.json'
 import movieNotFoundResponse from '../../mocks/movieNotFoundResponse.json'
@@ -49,7 +49,7 @@ export function useMovies({search, sort}){
     //     }
     // }
 
-    const getMovies = async () => {
+    const getMovies = useCallback( async ({search}) => {
         if(previousSearch.current === search) return
 
         try {
@@ -62,7 +62,7 @@ export function useMovies({search, sort}){
         } finally {
             setLoading(false)
         }
-    }
+    }, [])
 
 
     const sortedMovies = useMemo(() =>{

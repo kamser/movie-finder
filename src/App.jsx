@@ -17,7 +17,7 @@ function App() {
 
   const handleOnSumbit = (event) => {
     event.preventDefault()
-    getMovies()
+    getMovies({search})
   }
 
   const handleOnChange = (event) => {
